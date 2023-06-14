@@ -1,0 +1,5 @@
+(library
+ (name plotly_demo)
+ (flags :standard)
+ (libraries
+  plotly))

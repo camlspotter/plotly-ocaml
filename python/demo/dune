@@ -1,0 +1,7 @@
+(executable
+ (name demo)
+ (flags :standard)
+ (libraries
+  plotly
+  plotly_demo
+  plotly.python))
