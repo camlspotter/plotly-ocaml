@@ -45,8 +45,14 @@ module Data : sig
   val y : float array -> t
   val z : float array -> t
 
+  (* The argument is splitted to build attributes [x] and [y] *)
   val xy : (float * float) array -> t
+
+  (* The argument is splitted to build attributes [x], [y], and [z] *)
   val xyz : (float * float * float) array -> t
+
+  (* Build custom data attributes *)
+  val data : Attribute.t list -> t
 end
 
 module Layout : sig
@@ -54,6 +60,9 @@ module Layout : sig
 
   val title : string -> t
   val barmode : string -> t
+
+  (* Build custom layout attributes *)
+  val layout : Attribute.t list -> t
 end
 
 module Graph : sig
@@ -63,6 +72,10 @@ module Graph : sig
   val scatter3d : Data.t list -> t
   val bar : Data.t list -> t
   val pie : Data.t list -> t
+  val histogram : Data.t list -> t
+
+  (* Build custom graph *)
+  val graph : string -> Data.t list -> t
 end
 
 module Figure : sig

@@ -104,6 +104,11 @@ let pie_ =
           ] ]
     [ title "Pie" ]
 
+let histogram_ =
+  figure
+    [ histogram [ x (Array.init 500 (fun _ -> Random.float 1.0)) ] ]
+    [ title "Histogram" ]
+
 let figures =
   [ scatter_;
     scatter_markers;
@@ -114,5 +119,6 @@ let figures =
     bar_;
     bar_stack;
     bar_stack_horizontal;
-    pie_
+    pie_;
+    histogram_;
   ]

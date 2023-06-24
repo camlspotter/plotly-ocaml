@@ -25,6 +25,8 @@ module Data = struct
     let ys = Array.map (fun (_,y,_) -> y) xyzs in
     let zs = Array.map (fun (_,_,z) -> z) xyzs in
     x xs @ y ys @ z zs
+
+  let data ds = ds
 end
 
 module Layout = struct
@@ -34,6 +36,8 @@ module Layout = struct
 
   let title = string "title"
   let barmode = string "barmode"
+
+  let layout ats = ats
 end
 
 module Graph = struct
@@ -43,6 +47,9 @@ module Graph = struct
   let scatter3d data_list = { type_ = "scatter3d"; data= List.flatten data_list }
   let bar data_list = { type_ = "bar"; data= List.flatten data_list }
   let pie data_list = { type_ = "pie"; data= List.flatten data_list }
+  let histogram data_list = { type_ = "histogram"; data= List.flatten data_list }
+
+  let graph type_ data_list = { type_; data= List.flatten data_list }
 end
 
 module Figure = struct
