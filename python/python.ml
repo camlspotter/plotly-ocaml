@@ -7,14 +7,6 @@ let rec of_value v =
   | Value (String, s) -> Py.String.of_string s
   | Value (Array ty, vs) ->
       Py.List.of_array @@ Array.map (fun v -> of_value (Value (ty, v))) vs
-  | Value (List ty, vs) ->
-      Py.List.of_list @@ List.map (fun v -> of_value (Value (ty, v))) vs
-  | Value (Tup2 (tx, ty), (vx, vy)) ->
-      Py.List.of_list [ of_value (Value (tx, vx)); of_value (Value (ty, vy))]
-  | Value (Tup3 (tx, ty, tz), (vx, vy, vz)) ->
-      Py.List.of_list [ of_value (Value (tx, vx));
-                        of_value (Value (ty, vy));
-                        of_value (Value (tz, vz))]
 
 let of_attribute (s, v : Attribute.t) = (s, of_value v)
 

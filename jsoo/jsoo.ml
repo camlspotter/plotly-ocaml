@@ -12,18 +12,6 @@ let rec conv_value v =
   | Value (Array ty, vs) ->
       let vs = Array.map (fun v -> conv_value (Value (ty, v))) vs in
       Js.Unsafe.inject @@ Js.array vs
-  | Value (List ty, vs) ->
-      let vs = List.map (fun v -> conv_value (Value (ty, v))) vs in
-      Js.Unsafe.inject @@ Js.array @@ Array.of_list vs
-  | Value (Tup2 (tx,ty), (vx,vy)) ->
-      let vx = conv_value (Value (tx, vx)) in
-      let vy = conv_value (Value (ty, vy)) in
-      Js.Unsafe.inject @@ Js.array [|vx; vy|]
-  | Value (Tup3 (tx,ty,tz), (vx,vy,vz)) ->
-      let vx = conv_value (Value (tx, vx)) in
-      let vy = conv_value (Value (ty, vy)) in
-      let vz = conv_value (Value (tz, vz)) in
-      Js.Unsafe.inject @@ Js.array [|vx; vy; vz|]
 
 let obj_of_attributes (xs : Attribute.t list) : _ Js.t =
   Js.Unsafe.obj @@
