@@ -3,6 +3,8 @@ module Type : sig
     | Float : float t
     | String : string t
     | Array : 'a t -> 'a array t
+
+  type type_ = Type : _ t -> type_
 end
 
 module Value : sig
@@ -11,6 +13,9 @@ module Value : sig
   val float : float -> float t
   val string : string -> string t
   val array : 'a Type.t -> 'a array -> 'a array t
+
+  val to_json : value -> Ezjsonm.value
+  val of_json : 'a Type.t -> Ezjsonm.value -> value option
 end
 
 module Attribute : sig
@@ -18,9 +23,14 @@ module Attribute : sig
 end
 
 module Attributes : sig
+  type t = Attribute.t list
+
   val float : string -> float -> Attribute.t list
   val string : string -> string -> Attribute.t list
   val array : string -> 'a Type.t -> 'a array -> Attribute.t list
+
+  val to_json : t -> Ezjsonm.value
+  val of_json : (string * Type.type_) list -> Ezjsonm.value -> t option
 end
 
 module Data : sig
@@ -44,6 +54,9 @@ module Data : sig
 
   (* Build custom data attributes *)
   val data : Attribute.t list -> t
+
+  val to_json : t -> Ezjsonm.value
+  val of_json : (string * Type.type_) list -> Ezjsonm.value -> t option
 end
 
 module Layout : sig
@@ -54,6 +67,9 @@ module Layout : sig
 
   (* Build custom layout attributes *)
   val layout : Attribute.t list -> t
+
+  val to_json : t -> Ezjsonm.value
+  val of_json : (string * Type.type_) list -> Ezjsonm.value -> t option
 end
 
 module Graph : sig
@@ -67,6 +83,9 @@ module Graph : sig
 
   (* Build custom graph *)
   val graph : string -> Data.t list -> t
+
+  val to_json : t -> Ezjsonm.value
+  val of_json : (string * Type.type_) list -> Ezjsonm.value -> t option
 end
 
 module Figure : sig
@@ -75,4 +94,11 @@ module Figure : sig
       layout : Layout.t }
 
   val figure : Graph.t list -> Layout.t list -> t
+
+  val to_json : t -> Ezjsonm.value
+
+  val of_json :
+    data_types:(string * Type.type_) list ->
+    layout_types:(string * Type.type_) list ->
+    Ezjsonm.value -> t option
 end
