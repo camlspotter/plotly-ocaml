@@ -62,7 +62,7 @@ module Graph = struct
     | `O kvs -> `O (("type", `String g.type_) :: kvs)
     | _ -> assert false
 
-  let of_json ktys = function
+  let of_json = function
     | `O kvs ->
         let open Option in
         let type_, others =
@@ -70,7 +70,7 @@ module Graph = struct
         in
         (match type_ with
          | ["type", `String type_] ->
-             let+ data = Data.of_json ktys (`O others) in
+             let+ data = Data.of_json (`O others) in
              { type_; data }
          | _ -> None)
     | _ -> None
@@ -90,18 +90,18 @@ module Figure = struct
        Plotly JS library *)
     `O ["data", `A graphs; "layout", layout]
 
-  let of_json ~data_types ~layout_types j =
+  let of_json j =
     let open Option in
     match j with
     | `O kvs ->
         let* graphs = List.assoc_opt "data" kvs in
         let* graphs =
           match graphs with
-          | `A graphs -> Option.mapM (Graph.of_json data_types) graphs
+          | `A graphs -> Option.mapM Graph.of_json  graphs
           | _ -> None
         in
         let* layout = List.assoc_opt "layout" kvs in
-        let+ layout = Layout.of_json layout_types layout in
+        let+ layout = Layout.of_json layout in
         { graphs; layout }
     | _ -> None
 end

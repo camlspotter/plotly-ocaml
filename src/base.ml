@@ -24,6 +24,7 @@ end
 module Value = struct
   type 'a t = 'a Type.t * 'a
   type value = Value : 'a t -> value
+
   let float f : float t = Type.Float, f
   let string s : string t = Type.String, s
   let array ty vs : 'a array t = Type.Array ty, vs
@@ -34,21 +35,27 @@ module Value = struct
     | Value (String, s) -> `String s
     | Value (Array ty, xs) -> `A (List.map (fun x -> to_json (Value (ty, x))) @@ Array.to_list xs)
 
-  let rec of_json : type a . a Type.t -> Ezjsonm.value -> a option =
-    fun ty v ->
+  let rec of_json v =
     let open Option in
-    match ty, (v : Ezjsonm.value) with
-    | Type.Float, `Float f -> Some f
-    | String, `String s -> Some s
-    | Array ty, `A vs ->
-        let+ res = mapM (of_json ty) vs in
-        Array.of_list res
+    match v with
+    | `Float f -> Some (Value (float f))
+    | `String s -> Some (Value (string s))
+    | `A vs ->
+        let* vs = mapM of_json vs in
+        (match vs with
+        | [] -> None
+        | v::vs ->
+            let Value (ty, _) = v in
+            let rec check acc = function
+              | [] -> Some (Value (Type.Array ty, Array.of_list @@ List.rev acc))
+              | v'::vs ->
+                  let Value (ty', v') = v' in
+                  match Type.eq ty ty' with
+                  | Some Eq -> check (v'::acc) vs
+                  | None -> None
+            in
+            check [] (v::vs))
     | _ -> None
-
-  let of_json ty v =
-    let open Option in
-    let+ v = of_json ty v in
-    Value (ty, v)
 end
 
 module Attribute = struct
@@ -66,15 +73,12 @@ module Attributes = struct
   let to_json xs =
     `O (List.map (fun (k, v) -> k, Value.to_json v) xs)
 
-  let of_json ktys j =
+  let of_json j =
     let open Option in
     match j with
     | `O kvs ->
         Option.mapM (fun (k, v) ->
-            match List.assoc_opt k ktys with
-            | None -> None
-            | Some (Type.Type ty) ->
-                let+ res = Value.of_json ty v in
-                (k, res)) kvs
+            let+ res = Value.of_json v in
+            (k, res)) kvs
     | _ -> None
 end

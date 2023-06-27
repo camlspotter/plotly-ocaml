@@ -10,7 +10,7 @@ homepage: "https://github.com/camlpsotter/plotly-ocaml"
 bug-reports: "https://github.com/camlpsotter/plotly-ocaml/issues"
 depends: [
   "ocaml"
-  "dune" {>= "3.8"}
+  "dune" {>= "3.7"}
   "js_of_ocaml"
   "js_of_ocaml-ppx"
   "js_of_ocaml-lwt"

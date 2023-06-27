@@ -16,7 +16,7 @@ module Value : sig
   val array : 'a Type.t -> 'a array -> 'a array t
 
   val to_json : value -> Ezjsonm.value
-  val of_json : 'a Type.t -> Ezjsonm.value -> value option
+  val of_json : Ezjsonm.value -> value option
 end
 
 module Attribute : sig
@@ -31,5 +31,5 @@ module Attributes : sig
   val array : string -> 'a Type.t -> 'a array -> Attribute.t list
 
   val to_json : t -> Ezjsonm.value
-  val of_json : (string * Type.type_) list -> Ezjsonm.value -> t option
+  val of_json : Ezjsonm.value -> t option
 end
