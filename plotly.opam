@@ -7,8 +7,8 @@ description:
 maintainer: ["Jun FURUSE <jun.furuse@dailambda.jp>"]
 authors: ["Jun FURUSE <jun.furuse@dailambda.jp>"]
 license: "MIT"
-homepage: "https://github.com/camlpsotter/plotly-ocaml"
-bug-reports: "https://github.com/camlpsotter/plotly-ocaml/issues"
+homepage: "https://github.com/camlspotter/plotly-ocaml"
+bug-reports: "https://github.com/camlspotter/plotly-ocaml/issues"
 depends: [
   "ocaml" {>= "4.14.0"}
   "dune" {>= "3.7"}
@@ -32,4 +32,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/camlpsotter/plotly-ocaml.git"
+dev-repo: "git+https://github.com/camlspotter/plotly-ocaml.git"

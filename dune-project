@@ -5,7 +5,7 @@
 (generate_opam_files true)
 
 (source
- (github camlpsotter/plotly-ocaml))
+ (github camlspotter/plotly-ocaml))
 
 (authors "Jun FURUSE <jun.furuse@dailambda.jp>")
 
