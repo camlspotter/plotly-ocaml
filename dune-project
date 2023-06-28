@@ -19,7 +19,7 @@
  (name plotly)
  (synopsis "Binding for Plotly Open Source Graphing Library")
  (description "OCaml wrapper for Plotly Open Source Graphing Library: https://plotly.com/graphing-libraries")
- (depends ocaml dune js_of_ocaml js_of_ocaml-ppx js_of_ocaml-lwt pyml)
+ (depends (ocaml (>= "4.14.0")) dune js_of_ocaml js_of_ocaml-ppx js_of_ocaml-lwt pyml)
 ; (tags (topics "to describe" your project))
  (version "1.0.0"))
 
